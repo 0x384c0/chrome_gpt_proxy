@@ -14,4 +14,5 @@ TODO:
   * wait for answer end and paste
   * paste previous N-th sentence
 * auto paste initial prompt
-* generate keyword for search
+* generate keyword for search and show results
+* runtime self diagnostics and UI for quick fixes
