@@ -2,15 +2,22 @@ export { init, start, stop, recognizing };
 
 let recognition: SpeechRecognition;
 var recognizing = false;
+var recognizedTranscript = ""
 
-function init(onResult: (result: string) => void, onStop: () => void) {
+function init(onResult: (result: string) => void, onSpeechEnd: (result: string) => void, onStop: () => void) {
     recognition = new webkitSpeechRecognition() || new SpeechRecognition();
     recognition.lang = 'en-US';
     recognition.interimResults = true;
 
     recognition.onresult = function(event: SpeechRecognitionEvent) {
-        const result = event.results[event.results.length - 1][0].transcript;
-        onResult(result)
+        recognizedTranscript = '';
+
+        for (let i = 0; i < event.results.length; i++) {
+            const result = event.results[i][0];
+            const transcript = result.transcript;
+            recognizedTranscript += transcript + ' ';
+        }
+        onResult(recognizedTranscript)
     };
 
     recognition.onstart = function () {
@@ -20,6 +27,7 @@ function init(onResult: (result: string) => void, onStop: () => void) {
     recognition.onend = function () {
         onStop()
         recognizing = false;
+        onSpeechEnd(recognizedTranscript)
     };
     
     recognition.onerror = function () {
@@ -28,7 +36,7 @@ function init(onResult: (result: string) => void, onStop: () => void) {
     };
 
     recognition.onspeechend = function() {
-        recognition.stop();
+        recognition.stop()
     };
 }
 
@@ -36,13 +44,11 @@ function init(onResult: (result: string) => void, onStop: () => void) {
 function start() {
     if (!recognizing) {
         recognition.start();
-        console.log('Speech recognition started.');
     }
 }
 
 function stop() {
     if (recognizing) {
         recognition.stop();
-        console.log('Speech recognition stopped.');
     }
 }

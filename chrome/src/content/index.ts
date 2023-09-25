@@ -1,5 +1,7 @@
 import divHtml from './page.html?raw'
 import * as web_speech from '../modules/speech/web_speech'
+import { ChatInteractor } from '../modules/interactors/chat_interactor';
+import { ChatGptInteractor } from '../modules/interactors/chat_gpt/chat_gpt_interactor';
 
 function addPage() {
     var container = document.createElement('div');
@@ -12,7 +14,7 @@ function getButton(){
     return document.querySelector('#listen_button')
 }
 
-function addClickListener(){
+function addClickListener(){ // TODO: press and release
     const button = getButton()
     button?.addEventListener('click', () => {
         if (web_speech.recognizing){
@@ -26,7 +28,7 @@ function addClickListener(){
 }
 
 function writeToOutput(result:string){
-    document.getElementById('listen_output')!.textContent = result;
+    chatInteractor.paste(result)
 }
 
 function resetButton(){
@@ -34,6 +36,16 @@ function resetButton(){
     button!.textContent = `Start`
 }
 
+
 addPage()
 addClickListener()
-web_speech.init(writeToOutput, resetButton)
+
+let chatInteractor: ChatInteractor = new ChatGptInteractor()
+
+
+function sendMessage(finalMessage: string){
+    chatInteractor.paste(finalMessage)
+    chatInteractor.send()   
+}
+
+web_speech.init(writeToOutput, sendMessage, resetButton)

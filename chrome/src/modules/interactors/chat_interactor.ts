@@ -1,7 +1,7 @@
-interface ChatInteractor {
+export interface ChatInteractor {
+    isGenerating: boolean
     clear(): void
     paste(text: string): void
-    send(text: string): void
-    isGenerating: boolean
+    send(): void
     stopGenerating(): void
 }
