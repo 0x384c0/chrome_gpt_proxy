@@ -1,4 +1,5 @@
 import divHtml from './page.html?raw'
+import * as web_speech from '../modules/speech/web_speech'
 
 function addPage() {
     var container = document.createElement('div');
@@ -7,15 +8,32 @@ function addPage() {
     document.body.appendChild(redDiv!);
 }
 
+function getButton(){
+    return document.querySelector('#listen_button')
+}
 
 function addClickListener(){
-    const button = document.querySelector('#test_button')
-    let count = 0
+    const button = getButton()
     button?.addEventListener('click', () => {
-        count++
-        button.textContent = `Count: ${count}`
+        if (web_speech.recognizing){
+            web_speech.stop()
+            resetButton()
+        } else {
+            web_speech.start()
+            button.textContent = `Stop`
+        }
     })
+}
+
+function writeToOutput(result:string){
+    document.getElementById('listen_output')!.textContent = result;
+}
+
+function resetButton(){
+    const button = getButton()
+    button!.textContent = `Start`
 }
 
 addPage()
 addClickListener()
+web_speech.init(writeToOutput, resetButton)
