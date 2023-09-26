@@ -1,7 +1,13 @@
 import divHtml from './page.html?raw'
-import * as web_speech from '../modules/speech/web_speech'
+import * as web_speech from '../modules/speech/web_speech' // TODO: to class
 import { ChatInteractor } from '../modules/interactors/chat_interactor';
 import { ChatGptInteractor } from '../modules/interactors/chat_gpt/chat_gpt_interactor';
+
+
+// UI
+var start_button: HTMLButtonElement
+var stop_and_send_button: HTMLButtonElement
+var stop_button: HTMLButtonElement
 
 function addPage() {
     var container = document.createElement('div');
@@ -10,42 +16,58 @@ function addPage() {
     document.body.appendChild(redDiv!);
 }
 
-function getButton(){
-    return document.querySelector('#listen_button')
+function initUI() {
+    start_button = document.querySelector('#start_button')!
+    stop_and_send_button = document.querySelector('#stop_and_send_button')!
+    stop_button = document.querySelector('#stop_button')!
 }
 
-function addClickListener(){ // TODO: press and release
-    const button = getButton()
-    button?.addEventListener('click', () => {
-        if (web_speech.recognizing){
-            web_speech.stop()
-            resetButton()
-        } else {
-            web_speech.start()
-            button.textContent = `Stop`
-        }
+function initClickListeners() {
+    start_button.addEventListener('click', () => {
+        sendMessageAfterStop = false
+        web_speech.start()
+    })
+    stop_and_send_button.addEventListener('click', () => {
+        sendMessageAfterStop = true
+        web_speech.stop()
+    })
+    stop_button.addEventListener('click', () => {
+        sendMessageAfterStop = false
+        web_speech.stop()
     })
 }
 
-function writeToOutput(result:string){
+// Sppech events
+function onSpeechInterimResult(result: string) {
     chatInteractor.paste(result)
 }
 
-function resetButton(){
-    const button = getButton()
-    button!.textContent = `Start`
+var sendMessageAfterStop = false
+
+function onSpeechFullResult(finalMessage: string) {
+    chatInteractor.paste(finalMessage)
+    if (sendMessageAfterStop) {
+        chatInteractor.send()
+    }
 }
 
+function onSpeechStart() {
+    start_button.hidden = true
+    stop_and_send_button.hidden = false
+    stop_button.hidden = false
+}
+
+function onSpeechStop() {
+    start_button.hidden = false
+    stop_and_send_button.hidden = true
+    stop_button.hidden = true
+}
 
 addPage()
-addClickListener()
+initUI()
+initClickListeners()
+onSpeechStop()
 
 let chatInteractor: ChatInteractor = new ChatGptInteractor()
 
-
-function sendMessage(finalMessage: string){
-    chatInteractor.paste(finalMessage)
-    chatInteractor.send()   
-}
-
-web_speech.init(writeToOutput, sendMessage, resetButton)
+web_speech.init(onSpeechInterimResult, onSpeechFullResult, onSpeechStart, onSpeechStop)

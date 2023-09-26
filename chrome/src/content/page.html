@@ -1,14 +1,24 @@
 <div>
     <style>
         button.centered-button {
-            background-color: green;
+            padding: 10px 20px;
+            background-color: #0077cc;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button-container {
             position: fixed;
             top: 0;
             left: 40%;
-            transform: translateX(-40%);
-            padding: 10px;
+            display: flex;
+            gap: 10px;
         }
     </style>
-    <button id="listen_button" type="button" class="centered-button">Start</button>
-    <div id="listen_output"></div>
+    <div class="button-container">
+        <button id="start_button" type="button" class="centered-button">Start</button>
+        <button id="stop_and_send_button" type="button" class="centered-button">Stop and send</button>
+        <button id="stop_button" type="button" class="centered-button">Stop</button>
+    </div>
 </div>

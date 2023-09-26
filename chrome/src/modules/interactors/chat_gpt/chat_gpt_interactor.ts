@@ -6,24 +6,24 @@ export class ChatGptInteractor implements ChatInteractor {
         return this.getStopButton() != undefined
     }
 
-    clear(){
+    clear() {
         this.getTextArea().value = ""
         this.triggerTextInputEvent()
     }
 
-    paste(text: string){
+    paste(text: string) {
         this.getTextArea().value = text
         this.triggerTextInputEvent()
     }
 
-    send(){
+    send() {
         if (this.getTextArea().value != "" && !this.isGenerating) {
             const sendButton = document.querySelector('button[data-testid="send-button"]') as HTMLButtonElement;
             sendButton!.click()
         }
     }
 
-    stopGenerating(){
+    stopGenerating() {
         this.getStopButton()?.click()
     }
 
@@ -43,11 +43,11 @@ export class ChatGptInteractor implements ChatInteractor {
         return document.getElementById("prompt-textarea") as HTMLTextAreaElement
     }
 
-    triggerTextInputEvent(){
+    triggerTextInputEvent() {
         const inputEvent = new Event('input', {
             bubbles: true,
             cancelable: true,
-          });
+        });
         this.getTextArea().dispatchEvent(inputEvent);
     }
 }
