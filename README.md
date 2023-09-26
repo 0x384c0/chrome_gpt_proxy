@@ -1,18 +1,22 @@
 # interview_helper
-TODO:
-### Speech recognition engine
-* find best speech recognition engine
-* on button press listen aution from audio output and input and convert it to text
-* on button release send text to Chrome extension
-### Chrome extension
-* on button release paste text to chat
-* chat support ChatGPT, Bing, Bard
-* hotkeys
-  * stop answer and paste
-  * stop answer and regenerate
-  * reset
-  * wait for answer end and paste
-  * paste previous N-th sentence
+### Usage:
+Audio setup (MacOS) 
+* install [BlackHole](https://existential.audio/blackhole/)
+* in `Utilities/Audio Midi Setu.app` create `Multi-Output Device`
+* Select `BlackHole 2ch` and default audio output (like `External Headphones`)
+* In contex menu for `Multi-Output Device` select `Use this device for Sound Output`
+* `sh run_chrome_osx.sh` 
+* Go ot `chrome://settings/content/microphone` and select `BlackHole 2ch`
+### Extension
+* `cd chrome && sh run_dev.sh`
+* install extension from [chrome/build]
+* open [ChatGPT](https://chat.openai.com/), [Bing Chat](https://www.bing.com/search?q=Bing+AI&showconv=1&FORM=hpcodx)
+* use buttons or hotkeys while mouse over `Hotkeys Area` (Up - Start/Stop, Right arrows - Stop and send)
+
+### TODO:
+* chat support Bing, Bard
+* swithch audio device
+* global hotkeys
 * auto paste initial prompt
 * generate keyword for search and show results
 * runtime self diagnostics and UI for quick fixes

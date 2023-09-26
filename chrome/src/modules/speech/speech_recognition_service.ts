@@ -1,6 +1,6 @@
 export class SpeechRecognitionService {
+    recognizing = false;
     private recognition: SpeechRecognition;
-    private recognizing = false;
     private recognizedTranscript = '';
 
     constructor(
