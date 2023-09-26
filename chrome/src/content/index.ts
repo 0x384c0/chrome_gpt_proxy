@@ -1,5 +1,5 @@
 import divHtml from './page.html?raw'
-import * as web_speech from '../modules/speech/web_speech' // TODO: to class
+import { SpeechRecognitionService } from '../modules/speech/speech_recognition_service'
 import { ChatInteractor } from '../modules/interactors/chat_interactor';
 import { ChatGptInteractor } from '../modules/interactors/chat_gpt/chat_gpt_interactor';
 
@@ -47,8 +47,7 @@ function initKeyHandlers() {
     window.onkeyup = function (e) {
         switch (e.key) {
             case 'ArrowUp':
-                console.log("!!! ArrowUp")
-                if (web_speech.recognizing) {
+                if (webSpeech.recognizing) {
                     onStopClick()
                 } else if (isHotkeysEnabled) {
                     onStartClick()
@@ -56,7 +55,7 @@ function initKeyHandlers() {
                 break;
             case 'ArrowRight':
                 if (isHotkeysEnabled) {
-                    if (web_speech.recognizing) {
+                    if (webSpeech.recognizing) {
                         onStopAndSendClick()
                     } else {
                         chatInteractor.send()
@@ -70,17 +69,17 @@ function initKeyHandlers() {
 // UI Events
 function onStartClick() {
     sendMessageAfterStop = false
-    web_speech.start()
+    webSpeech.start()
 }
 
 function onStopAndSendClick() {
     sendMessageAfterStop = true
-    web_speech.stop()
+    webSpeech.stop()
 }
 
 function onStopClick() {
     sendMessageAfterStop = false
-    web_speech.stop()
+    webSpeech.stop()
 }
 
 // Sppech events
@@ -110,13 +109,12 @@ function onSpeechStop() {
     stop_button.hidden = true
 }
 
+let chatInteractor: ChatInteractor = new ChatGptInteractor()
+let webSpeech = new SpeechRecognitionService(onSpeechInterimResult, onSpeechFullResult, onSpeechStart, onSpeechStop)
+
 addPage()
 initUI()
 initClickListeners()
 initFocusArea()
 initKeyHandlers()
 onSpeechStop()
-
-let chatInteractor: ChatInteractor = new ChatGptInteractor()
-
-web_speech.init(onSpeechInterimResult, onSpeechFullResult, onSpeechStart, onSpeechStop)

@@ -20,7 +20,9 @@
     "preview": "vite preview",
     "fmt": "prettier --write '**/*.{ts,json,css,scss,md}'"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@types/dom-speech-recognition": "^0.0.2"
+  },
   "devDependencies": {
     "@crxjs/vite-plugin": "^1.0.12",
     "@types/chrome": "^0.0.236",
