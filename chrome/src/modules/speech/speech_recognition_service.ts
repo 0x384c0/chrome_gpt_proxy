@@ -4,6 +4,7 @@ export class SpeechRecognitionService {
     private recognizedTranscript = '';
 
     constructor(
+        private lang: SpeechRecognitionLang,
         private onInterimResult: (result: string) => void,
         private onFullResult: (result: string) => void,
         private onStart: () => void,
@@ -11,7 +12,7 @@ export class SpeechRecognitionService {
     ) {
         this.recognition =
             new (window['webkitSpeechRecognition'] || window['SpeechRecognition'])();
-        this.recognition.lang = 'en-US';
+        this.recognition.lang = lang;
         this.recognition.interimResults = true;
         this.recognition.continuous = true;
 
@@ -57,4 +58,9 @@ export class SpeechRecognitionService {
     public isRecognizing() {
         return this.recognizing;
     }
+}
+
+export enum SpeechRecognitionLang {
+    English = 'en-US',
+    Russian = 'ru-RU',
 }

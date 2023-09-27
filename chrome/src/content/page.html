@@ -29,16 +29,27 @@
             display: flex;
             gap: 10px;
         }
+
+        .language-select {
+            background: cornflowerblue;
+            color: white;
+        }
     </style>
     <div class="button-container">
         <div id="focus_area" class="focus-area">Hotkeys Area</div>
         <button id="start_button" type="button" class="centered-button">Start</button>
         <button id="stop_and_send_button" type="button" class="centered-button">Stop and send</button>
         <button id="stop_button" type="button" class="centered-button">Stop</button>
+        <div id="language_select_container">
+            <label for="language_select">Language:</label>
+            <select id="language_select" class="language-select">
+                <option value="en-US" >English</option>
+                <option value="ru-RU" >Русский</option>
+            </select>
+        </div>
         <div>
-            <button onclick="navigator.clipboard.writeText('chrome://extensions/')">chrome://extensions/</button>
-            </br>
-            <button onclick="navigator.clipboard.writeText('chrome://settings/content/microphone')">chrome://settings/content/microphone</button>
+            <div>chrome://extensions/</div>
+            <div>chrome://settings/content/microphone</div>
         </div>
     </div>
 </div>
