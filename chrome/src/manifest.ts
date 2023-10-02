@@ -22,7 +22,7 @@ export default defineManifest({
   },
   content_scripts: [
     {
-      matches: ['https://chat.openai.com/*'],
+      matches: ['https://chat.openai.com/*','https://www.bing.com/*'],
       js: ['src/content/index.ts'],
     },
   ],

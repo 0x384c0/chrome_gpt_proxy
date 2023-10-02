@@ -2,6 +2,7 @@ import divHtml from './page.html?raw'
 import { SpeechRecognitionLang, SpeechRecognitionService } from '../modules/speech/speech_recognition_service'
 import { ChatInteractor } from '../modules/interactors/chat_interactor';
 import { ChatGptInteractor } from '../modules/interactors/chat_gpt/chat_gpt_interactor';
+import { BingChatInteractor } from '../modules/interactors/bing_chat/bing_chat_interactor';
 
 
 // State
@@ -17,11 +18,23 @@ var stop_button: HTMLButtonElement
 var language_select: HTMLSelectElement
 var language_select_container: HTMLDivElement
 
+// Utils
+let chatInteractor: ChatInteractor
+let webSpeech: SpeechRecognitionService
+
+// Functions
 function addPage() {
     var container = document.createElement('div');
     container.innerHTML = divHtml;
     var redDiv = container.firstChild;
     document.body.appendChild(redDiv!);
+}
+
+function restorePage() {
+    let element = document.getElementById('interview-helper-controls');
+    if (element) {
+        element.style.display = 'block';
+    }
 }
 
 function initUI() {
@@ -65,6 +78,7 @@ function initKeyHandlers() {
     window.onkeyup = function (e) {
         switch (e.key) {
             case 'ArrowUp':
+                restorePage()
                 if (webSpeech.recognizing) {
                     onStopClick()
                 } else if (isHotkeysEnabled) {
@@ -139,9 +153,21 @@ function initSpeechRecognition() {
     )
 }
 
-let chatInteractor: ChatInteractor = new ChatGptInteractor()
-let webSpeech: SpeechRecognitionService
+function initChatInteractor() {
+    switch (true) {
+        case window.location.href.includes('bing.com'):
+            chatInteractor = new BingChatInteractor();
+            break;
+        case window.location.href.includes('chat.openai.com'):
+            chatInteractor = new ChatGptInteractor();
+            break;
+        default:
+            console.log('Unsupported URL');
+    }
+}
 
+// Main
+initChatInteractor()
 initSpeechRecognition()
 addPage()
 initUI()

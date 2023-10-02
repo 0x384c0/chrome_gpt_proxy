@@ -1,6 +1,6 @@
 import { ChatInteractor } from '../chat_interactor'
 
-export class ChatGptInteractor implements ChatInteractor {
+export class BingChatInteractor implements ChatInteractor {
 
     get isGenerating(): boolean {
         return this.getStopButton() != undefined
@@ -18,7 +18,7 @@ export class ChatGptInteractor implements ChatInteractor {
 
     send() {
         if (this.getTextArea().value != "" && !this.isGenerating) {
-            const sendButton = document.querySelector('button[data-testid="send-button"]') as HTMLButtonElement;
+            const sendButton = document.querySelector("#b_sydConvCont > cib-serp")?.shadowRoot?.querySelector("#cib-action-bar-main")?.shadowRoot?.querySelector("div > div.main-container > div > div.bottom-controls > div.bottom-right-controls > div.control.submit > cib-icon-button")?.shadowRoot?.querySelector("button")
             sendButton!.click()
         }
     }
@@ -29,18 +29,13 @@ export class ChatGptInteractor implements ChatInteractor {
 
     // private
     getStopButton(): HTMLButtonElement | undefined {
-        var element: HTMLButtonElement | undefined
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach((button) => {
-            if (button.textContent === 'Stop generating') {
-                element = button
-            }
-        });
+        let element = document.querySelector("#b_sydConvCont > cib-serp")?.shadowRoot?.querySelector("#cib-action-bar-main")?.shadowRoot?.querySelector("div > cib-typing-indicator")?.shadowRoot?.querySelector("#stop-responding-button")
         return element instanceof HTMLButtonElement ? element : undefined;
     }
 
     getTextArea(): HTMLTextAreaElement {
-        return document.getElementById("prompt-textarea") as HTMLTextAreaElement
+        let element = document.querySelector('cib-serp')?.shadowRoot?.querySelector('cib-action-bar')?.shadowRoot?.querySelector('cib-text-input')?.shadowRoot?.querySelector('textarea')
+        return element as HTMLTextAreaElement
     }
 
     triggerTextInputEvent() {
