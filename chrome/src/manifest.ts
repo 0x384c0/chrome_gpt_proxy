@@ -22,7 +22,7 @@ export default defineManifest({
   },
   content_scripts: [
     {
-      matches: ['https://chat.openai.com/*','https://www.bing.com/*'],
+      matches: ['https://chat.openai.com/*', 'https://www.bing.com/*'],
       js: ['src/content/index.ts'],
     },
   ],
@@ -32,5 +32,21 @@ export default defineManifest({
       matches: [],
     },
   ],
-  permissions: [],
+  permissions: [
+    "tabs",
+  ],
+  commands: {
+    start_stop_speech_recognizing: {
+      suggested_key: {
+        default: "Alt+Up",
+      },
+      description: "Start/Stop speech recognizing."
+    },
+    stop_speech_recognizing_and_send: {
+      suggested_key: {
+        default: "Alt+Right",
+      },
+      description: "Stop speech recognizing and send."
+    },
+  },
 })

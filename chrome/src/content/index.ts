@@ -47,17 +47,17 @@ function initUI() {
 }
 
 function initFocusArea() {
-    focus_area.onmouseover = function () {
+    focus_area.onmouseover = () => {
         isHotkeysEnabled = true
     }
-    focus_area.onmouseleave = function () {
+    focus_area.onmouseleave = () => {
         isHotkeysEnabled = false
     }
 }
 
 function initLangPicker() {
     language_select.value = selectedLanguage
-    language_select.onchange = function () {
+    language_select.onchange = () => {
         switch (language_select.value) {
             case 'en-US':
                 selectedLanguage = SpeechRecognitionLang.English
@@ -74,7 +74,7 @@ function initClickListeners() {
     stop_button.addEventListener('click', onStopClick)
 }
 
-function initKeyHandlers() {
+function initKeyListeners() {
     window.onkeyup = function (e) {
         switch (e.key) {
             case 'ArrowUp':
@@ -96,6 +96,30 @@ function initKeyHandlers() {
                 break;
         }
     }
+}
+
+function initCommandListeners() {
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+        if (!isHotkeysEnabled)
+            switch (message) {
+                case 'start_stop_speech_recognizing':
+                    restorePage()
+                    if (webSpeech.recognizing) {
+                        onStopClick()
+                    } else {
+                        onStartClick()
+                    }
+                    break
+                case 'stop_speech_recognizing_and_send':
+                    if (webSpeech.recognizing) {
+                        onStopAndSendClick()
+                    } else {
+                        chatInteractor.send()
+                    }
+                    break
+            }
+        return true
+    })
 }
 
 // UI Events
@@ -174,5 +198,6 @@ initUI()
 initClickListeners()
 initLangPicker()
 initFocusArea()
-initKeyHandlers()
+initKeyListeners()
+initCommandListeners()
 onSpeechStop()
