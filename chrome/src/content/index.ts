@@ -94,6 +94,10 @@ function initKeyListeners() {
                     }
                 }
                 break;
+            case 'ArrowLeft':
+                if (isHotkeysEnabled && webSpeech.recognizing)
+                    onStopClick()
+                break;
         }
     }
 }
@@ -116,6 +120,10 @@ function initCommandListeners() {
                     } else {
                         chatInteractor.send()
                     }
+                    break
+                case 'stop_speech_recognizing':
+                    if (webSpeech.recognizing)
+                        onStopClick()
                     break
             }
         return true

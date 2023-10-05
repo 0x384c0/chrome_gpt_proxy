@@ -11,7 +11,7 @@ Audio setup (MacOS)
 * `cd chrome && sh run_dev.sh`
 * install extension from [chrome/build]
 * open [ChatGPT](https://chat.openai.com/), [Bing Chat](https://www.bing.com/search?q=Bing+AI&showconv=1&FORM=hpcodx)
-* use buttons or hotkeys while mouse over `Hotkeys Area` or pressing `Alt` (Up - Start/Stop, Right arrows - Stop and send)
+* use buttons or hotkeys while mouse over `Hotkeys Area` or pressing `Alt` (Up - Start/Stop, Left - Stop, Right arrows - Stop and send)
 
 ### TODO:
 * chat support Bing, Bard

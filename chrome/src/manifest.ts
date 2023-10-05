@@ -48,5 +48,11 @@ export default defineManifest({
       },
       description: "Stop speech recognizing and send."
     },
+    stop_speech_recognizing: {
+      suggested_key: {
+        default: "Alt+Left",
+      },
+      description: "Stop speech recognizing."
+    },
   },
 })
