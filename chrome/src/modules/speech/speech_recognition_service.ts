@@ -37,7 +37,8 @@ export class SpeechRecognitionService {
             this.onStop();
         };
 
-        this.recognition.onerror = () => {
+        this.recognition.onerror = (e) => {
+            console.error(e)
             this.recognizing = false;
             this.onStop();
         };
