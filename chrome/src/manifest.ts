@@ -24,7 +24,6 @@ export default defineManifest({
     {
       matches: ['https://chat.openai.com/*', 'https://www.bing.com/*'],
       js: ['src/content/index.ts'],
-      all_frames: true,
     },
   ],
   web_accessible_resources: [
