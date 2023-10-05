@@ -15,7 +15,7 @@ export default defineManifest({
     default_popup: 'src/popup/index.html',
     default_icon: 'img/logo-48.png',
   },
-  options_page: 'options.html',
+  options_page: 'src/options/index.html',
   background: {
     service_worker: 'src/background/index.ts',
     type: 'module',
@@ -24,6 +24,7 @@ export default defineManifest({
     {
       matches: ['https://chat.openai.com/*', 'https://www.bing.com/*'],
       js: ['src/content/index.ts'],
+      all_frames: true,
     },
   ],
   web_accessible_resources: [
