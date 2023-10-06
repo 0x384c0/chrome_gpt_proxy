@@ -14,9 +14,6 @@ Audio setup (MacOS)
 * use buttons or hotkeys while mouse over `Hotkeys Area` or pressing `Alt` (Up - Start/Stop, Left - Stop, Right arrows - Stop and send)
 
 ### TODO:
-* chat support Bing, Bard
-* swithch audio device
-* global hotkeys
-* auto paste initial prompt
-* generate keyword for search and show results
-* runtime self diagnostics and UI for quick fixes
+* multiple chats in one window
+* Unit Tests for all ChatInteractors, runtume tests
+* generate keyword for search in given document
